@@ -2,6 +2,14 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+    axios.get("https://api.github.com/users/shantelb")
+    .then(response => {
+      gitHubpeople(response.data)
+    })
+
+    .catch(error => {
+      console.log(error)
+    })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +32,24 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+  
+followersArray.forEach( got => {
+axios.get("https://api.github.com/users/" + got) 
+.then(response => {
+  console.log(gitHubpeople(response.data))
+  console.log(response)
+let users = response.data
+cards.appendChild(gitHubpeople(users))
+gitHubpeople(response.data)
+  })
+  
+})
+
+.catch(error => {
+  console.log(error)
+})
+ 
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +70,61 @@ const followersArray = [];
 </div>
 
 */
+
+// var one = function one(selector){
+//   return document.querySelector(selector);
+// }
+
+function gitHubpeople(arr) {
+  const card = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const name = document.createElement('h3')
+  const userName = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const address = document.createElement('href')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  userName.classList.add('username')
+
+  image.src = arr.avatar_url
+  // cardInfo.textContent = arr.
+  name.textContent = arr.name
+  userName.textContent = arr.login 
+  location.textContent = `Location: ${arr.location}` 
+  profile.textContent = `Profile: ${arr.html_url}` 
+  address.textContent = arr.html_url 
+  followers.textContent = `Followers: ${arr.followers}` 
+  following.textContent = `Following: ${arr.following}`
+  bio.textContent = arr.bio 
+
+
+  card.appendChild(image)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(address)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+
+
+  const cards = document.querySelector('.cards')
+  const others = document.querySelectorAll('.cards')
+  cards.appendChild(card)
+  others.appendChild(card)
+
+return card
+
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
